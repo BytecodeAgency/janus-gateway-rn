@@ -1,3 +1,6 @@
+# Buid
+dist/
+
 # Logs
 logs
 *.log
