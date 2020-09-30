@@ -44,8 +44,9 @@ MediaPlugin.prototype.createPeerConnection = function(options) {
     Helpers.extend(constraints, options.constraints);
   }
 
+  this._pc = new window.RTCPeerConnection(config, constraints);
   this._addPcEventListeners();
-  return true;
+  return this._pc;
 };
 
 /**
@@ -152,7 +153,7 @@ MediaPlugin.prototype.createAnswer = function(jsep, options) {
  * @returns {Promise}
  */
 MediaPlugin.prototype.setRemoteSDP = function(jsep) {
-  return this._pc.setRemoteDescription(window.RTCSessionDescription);
+  return this._pc.setRemoteDescription(jsep);
 };
 
 /**
