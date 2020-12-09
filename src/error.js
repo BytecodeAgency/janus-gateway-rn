@@ -5,12 +5,12 @@ var Helpers = require('./helpers');
  * @constructor
  */
 function JanusError(janusMessage) {
-  Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.janusMessage = janusMessage;
   var janusError = janusMessage.getError();
   this.message = janusError['reason'];
   this.code = janusError['code'];
+  console.warn("Janus error ", this.code, " ", this.message);
 }
 
 Helpers.inherits(JanusError, Error);
