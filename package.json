@@ -1,7 +1,7 @@
 {
   "name": "janus-gateway-rn",
   "description": "Core concepts for Janus Javascript client, for React Native",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Cargomedia",
   "license": "MIT",
   "main": "src/index.js",

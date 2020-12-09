@@ -37,10 +37,6 @@ function Transaction(id, callback, timeoutPeriod) {
       }
       result.then(resolve, reject);
     };
-
-    timeoutRejection = setTimeout(function() {
-      reject(new Error('Transaction timeout ' + self.id));
-    }, timeoutPeriod);
   });
   this._isExecuted = false;
 }
