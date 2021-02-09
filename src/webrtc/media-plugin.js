@@ -2,6 +2,7 @@ var Promise = require('bluebird');
 var Helpers = require('../helpers');
 var Plugin = require('../plugin');
 var MediaDevicesShim = require('./media-devices-shim');
+import log  from "../log";
 
 /**
  * @inheritDoc
@@ -79,6 +80,7 @@ MediaPlugin.prototype.addTrack = function(track, stream) {
   if (!this._pc.addTrack) {
     //TODO remove this part as soon as pc.addTrack is supported by chrome or webrtc/adapter#361 is implemented
     if (!stream) {
+      console.log("janusError");
       throw new Error('MediaPlugin.addTrack. Missing stream argument when pc.addTrack is not supported');
     }
     this._pc.addStream(stream);
@@ -105,6 +107,7 @@ MediaPlugin.prototype.getUserMedia = function(constraints) {
     })
     .catch(function(error) {
       self.emit('consent-dialog:stop', {error: error});
+      console.log("janusError");
       throw error;
     })
     .finally(function() {
@@ -164,9 +167,11 @@ MediaPlugin.prototype.setRemoteSDP = function(jsep) {
  */
 MediaPlugin.prototype._createSDP = function(party, options) {
   if (!this._pc) {
+    console.log("janusError");
     throw new Error('Create PeerConnection before creating SDP for it');
   }
   if (['createOffer', 'createAnswer'].indexOf(party) < 0) {
+    console.log("janusError");
     throw new Error('Unknown party in _createSDP');
   }
 

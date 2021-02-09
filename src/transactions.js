@@ -14,9 +14,11 @@ function Transactions() {
  */
 Transactions.prototype.add = function(transaction) {
   if (this.has(transaction.id)) {
+    console.log("janusError");
     throw new Error('Transaction with id: `' + transaction.id + '` already exists');
   }
   if (!(transaction instanceof Transaction)) {
+    console.log("janusError");
     throw new Error('`transaction` must be an instance of Transaction');
   }
   this.list[transaction.id] = transaction;
@@ -47,6 +49,7 @@ Transactions.prototype.find = function(id) {
 Transactions.prototype.execute = function(id, message) {
   var transaction = this.find(id);
   if (!transaction) {
+    console.log("janusError");
     throw new Error('Transaction `' + id + '` not found');
   }
   if ('ack' !== message['janus']) {
@@ -61,6 +64,7 @@ Transactions.prototype.execute = function(id, message) {
  */
 Transactions.prototype.remove = function(id) {
   if (!this.has(id)) {
+    console.log("janusError");
     throw new Error('Transaction with id: `' + id + "` doesn't exist");
   }
   delete this.list[id];

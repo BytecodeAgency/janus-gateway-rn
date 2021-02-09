@@ -43,6 +43,7 @@ MediaEntityPlugin.prototype._create = function(options) {
       if (error.message.indexOf('already exists') > 0) {
         return error.response;
       } else {
+        console.log("janusError");
         throw error;
       }
     });

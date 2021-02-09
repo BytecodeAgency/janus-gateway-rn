@@ -54,6 +54,7 @@ WebsocketConnection.prototype._onOpen = function(webSocket) {
     this._installNodeListeners();
   }
   else {
+    console.log("janusError");
     throw new Error('Trying to instantiate WebsocketConnection with unknown Websocket');
   }
   this.emit('open');
@@ -69,6 +70,7 @@ WebsocketConnection.prototype._installW3cListeners = function() {
   }.bind(this);
 
   this._webSocket.onerror = function(error) {
+    console.warn("w3c error", error);
     this.emit('error', error);
   }.bind(this);
 
@@ -87,6 +89,7 @@ WebsocketConnection.prototype._installNodeListeners = function() {
   }.bind(this));
 
   this._webSocket.on('error', function(error) {
+    console.warn("node error", error);
     this.emit('error', error);
   }.bind(this));
 
@@ -156,6 +159,7 @@ WebsocketConnection.prototype.onMessage = function(message) {
   try {
     this.emit('message', message);
   } catch (error) {
+    console.warn("message received: error", error);
     this.emit('error', error);
   }
 };

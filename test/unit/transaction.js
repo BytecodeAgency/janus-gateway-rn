@@ -45,6 +45,7 @@ describe('single Transaction tests', function() {
 
   it('transaction callback throws exception', function(done) {
     var transaction = new Transaction('id-throws-exception', function() {
+      console.log("janusError");
       throw new Error('error');
     });
     transaction.execute().catch(function(error) {

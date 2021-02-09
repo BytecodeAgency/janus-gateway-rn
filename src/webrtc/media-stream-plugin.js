@@ -45,6 +45,7 @@ MediaStreamPlugin.prototype._watch = function(id, watchOptions, answerOptions) {
     .then(function(response) {
       var jsep = response.get('jsep');
       if (!jsep || 'offer' != jsep['type']) {
+        console.log("janusError");
         throw new Error('Expect offer response on watch request')
       }
       plugin.setCurrentEntity(id);

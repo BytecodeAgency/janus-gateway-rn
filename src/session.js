@@ -6,6 +6,7 @@ var JanusError = require('./error');
 var Timer = require('./timer');
 var Transaction = require('./transaction');
 var Plugin = require('./plugin');
+import log from "./log";
 
 /**
  * @param {Connection} connection
@@ -169,6 +170,7 @@ Session.prototype.processIncomeMessage = function(incomeMessage) {
   return Promise
     .try(function() {
       if (pluginId && !self.hasPlugin(pluginId)) {
+        console.log("Invalid plugin ");
         throw new Error('Invalid plugin [' + pluginId + ']');
       }
       if ('timeout' === incomeMessage.get('janus')) {
@@ -180,6 +182,7 @@ Session.prototype.processIncomeMessage = function(incomeMessage) {
       self.emit('message', incomeMessage);
     })
     .catch(function(error) {
+      console.warn("session error", error);
       self.emit('error', error);
     });
 };
@@ -198,6 +201,7 @@ Session.prototype._onAttach = function(outcomeMessage) {
         this.addPlugin(Plugin.create(this, outcomeMessage['plugin'], pluginId));
         return this.getPlugin(pluginId);
       } else {
+        console.log("janusError");
         throw new JanusError(incomeMessage);
       }
     }.bind(this))
@@ -226,6 +230,7 @@ Session.prototype._onDestroy = function(outcomeMessage) {
       if ('success' == incomeMessage.get('janus')) {
         return this._destroy().return(incomeMessage);
       } else {
+        console.log("janusError");
         throw new JanusError(incomeMessage);
       }
     }.bind(this))
@@ -274,6 +279,7 @@ Session.prototype._startKeepAlive = function() {
   } else {
     this._keepAlivePeriod = 30000;
   }
+  log("Starting keepAlive with duration " + this._keepAlivePeriod + " ms");
   var session = this;
   this._keepAliveTimer = new Timer(function() {
     session.send({janus: 'keepalive'})
@@ -281,6 +287,7 @@ Session.prototype._startKeepAlive = function() {
         if (session._connection.isClosed()) {
           session._stopKeepAlive();
         }
+        console.log("janusError");
         throw error;
       });
   }, this._keepAlivePeriod);

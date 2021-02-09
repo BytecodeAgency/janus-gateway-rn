@@ -17,6 +17,7 @@ describe('Plugin tests', function() {
 
     it('creates Plugin for unregistered', function() {
       function UnknownPlugin() {
+        console.log("janusError");
         throw new Error('Should be ignored');
       }
 

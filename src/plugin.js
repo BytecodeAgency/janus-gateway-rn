@@ -70,6 +70,7 @@ Plugin.prototype.getName = function() {
  * @returns {string}
  */
 Plugin.prototype.getResponseAlias = function() {
+  console.log("Plugin.getResponseAlias must be implemented");
   throw new Error('Plugin.getResponseAlias must be implemented');
 };
 
@@ -133,6 +134,7 @@ Plugin.prototype.processIncomeMessage = function(incomeMessage) {
       self.emit('message', incomeMessage);
     })
     .catch(function(error) {
+      console.warn("plugin error", error);
       self.emit('error', error);
     })
 };
@@ -183,6 +185,7 @@ Plugin.prototype.sendWithTransaction = function(options) {
   Helpers.extend(message, options);
 
   this.addTransaction(transaction);
+  log("sending " + JSON.stringify(options) + " to Janus with transactionID " + transactionId);
   var sendPromise = this.sendSync(message);
 
   return new Promise(function(resolve, reject) {
