@@ -7,7 +7,6 @@ var Transaction = require('./transaction');
 var WebsocketConnection = require('./websocket-connection');
 var Session = require('./session');
 var JanusMessage = require('./janus-message');
-import log from "./log";
 
 /**
  * @param {string} id
@@ -65,7 +64,6 @@ Connection.prototype._installWebsocketListeners = function() {
   this._websocketConnection.on('close', this.emit.bind(this, 'close'));
   this._websocketConnection.on('message', function(message) {
     this.processIncomeMessage(new JanusMessage(message)).catch(function(error) {
-      console.warn("connection error", error);
       this.emit('error', error);
     }.bind(this));
   }.bind(this));
@@ -188,7 +186,7 @@ Connection.prototype.send = function(message) {
   if (!message['transaction']) {
     message['transaction'] = Transaction.generateRandomId();
   }
-  log("sending message over websocket to janus with message " + JSON.stringify(message));
+  console.log("sending over websocket:" , message);
   return this._websocketConnection.send(message);
 };
 
@@ -227,7 +225,6 @@ Connection.prototype.processIncomeMessage = function(incomeMessage) {
   return Promise
     .try(function() {
       if (sessionId && !self.hasSession(sessionId)) {
-        console.log("invalid session");
         throw new Error('Invalid session: [' + sessionId + ']');
       }
       return self.defaultProcessIncomeMessage(incomeMessage);
@@ -247,7 +244,6 @@ Connection.prototype._onCreate = function(outcomeMessage) {
       this.addSession(Session.create(this, sessionId));
       return this.getSession(sessionId);
     } else {
-      console.log("janusError");
       throw new JanusError(incomeMessage);
     }
   }.bind(this)));
