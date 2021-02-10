@@ -12,12 +12,12 @@ function Timer(callback, ms) {
 }
 
 Timer.prototype.start = function() {
-  this._timeoutId = BackgroundTimer.setInterval(this._callback, this._ms);
+  this._timeoutId = BackgroundTimer.runBackgroundTimer(this._callback, this._ms);
 };
 
 Timer.prototype.stop = function() {
   if (this._timeoutId) {
-    BackgroundTimer.clearInterval(this._timeoutId);
+    BackgroundTimer.stopBackgroundTimer();
     this._timeoutId = null;
   }
 };
