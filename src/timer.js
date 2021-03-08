@@ -13,14 +13,11 @@ function Timer(callback, ms) {
 
 Timer.prototype.start = function() {
   console.log("setting interval");
-  this._timeoutId = BackgroundTimer.setTimeout(this._callback, this._ms);
+  BackgroundTimer.runBackgroundTimer(this._callback, this._ms);
 };
 
 Timer.prototype.stop = function() {
-  if (this._timeoutId) {
-    BackgroundTimer.clearTimeout(this._timeoutId);
-    this._timeoutId = null;
-  }
+  BackgroundTimer.stopBackgroundTimer();
 };
 
 Timer.prototype.reset = function() {

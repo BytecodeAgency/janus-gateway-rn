@@ -71,6 +71,7 @@ WebsocketConnection.prototype._installW3cListeners = function() {
 
   this._webSocket.onerror = function(error) {
     console.warn("w3c error", error);
+    global.phone = null;
     this.emit('error', error);
   }.bind(this);
 
