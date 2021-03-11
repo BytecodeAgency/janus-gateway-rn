@@ -1,5 +1,4 @@
 import BackgroundTimer from 'react-native-background-timer';
-import Platform from 'react-native'
 
 /**
  * @param {Function} callback
@@ -14,19 +13,11 @@ function Timer(callback, ms) {
 
 Timer.prototype.start = function() {
   console.log("setting interval");
-  if (Platform.OS === "android") {
-      BackgroundTimer.setInterval(() => {
-          this.send({ janus: "keepalive" });
-      }, 30000);
-  } else {
-      setInterval(() => {
-          this.send({ janus: "keepalive" });
-      }, 30000);
-  }
+  BackgroundTimer.runBackgroundTimer(this._callback, this._ms);
 };
 
 Timer.prototype.stop = function() {
-  // BackgroundTimer.stopBackgroundTimer();
+  BackgroundTimer.stopBackgroundTimer();
 };
 
 Timer.prototype.reset = function() {
